@@ -5,22 +5,7 @@ from sklearn.metrics import accuracy_score
 import joblib
 import numpy as np
 
-# Step 1: Synthetic data banate hain (baad mein real query logs se replace karenge)
-np.random.seed(42)
-n_samples = 500
-
-data = pd.DataFrame({
-    'is_join_column': np.random.randint(0, 2, n_samples),
-    'selectivity_ratio': np.round(np.random.uniform(0, 1, n_samples), 2),
-    'table_row_count': np.random.randint(100, 1000000, n_samples),
-    'scan_type_frequency': np.random.randint(0, 100, n_samples),
-})
-
-# Simple rule-based label generation (fake logic — real data se train hoga baad mein)
-data['label'] = (
-    (data['is_join_column'] == 1) |
-    (data['selectivity_ratio'] < 0.3) & (data['scan_type_frequency'] > 50)
-).astype(int)
+data = pd.read_csv('data/real_query_data.csv')
 
 print(data.head())
 
