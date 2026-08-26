@@ -10,7 +10,6 @@ conn = mysql.connector.connect(
 )
 cursor = conn.cursor()
 
-# Numeric columns pe multiple threshold conditions try karenge
 numeric_columns = {
     "film": ["rental_rate", "length", "replacement_cost", "rental_duration"],
     "payment": ["amount"],
@@ -28,7 +27,6 @@ for table, columns in numeric_columns.items():
             queries.append(f"SELECT * FROM {table} WHERE {col} > {t}")
             queries.append(f"SELECT * FROM {table} WHERE {col} < {t}")
 
-# Categorical / boolean columns
 categorical_conditions = [
     "SELECT * FROM customer WHERE active = 1",
     "SELECT * FROM customer WHERE active = 0",
@@ -51,13 +49,11 @@ categorical_conditions = [
 ]
 queries += categorical_conditions
 
-# ORDER BY variety
 order_columns = ["rental_rate", "length", "replacement_cost", "title", "release_year"]
 for col in order_columns:
     queries.append(f"SELECT * FROM film ORDER BY {col}")
     queries.append(f"SELECT * FROM film ORDER BY {col} DESC")
 
-# JOIN queries
 join_queries = [
     "SELECT f.title, c.name FROM film f JOIN film_category fc ON f.film_id = fc.film_id JOIN category c ON fc.category_id = c.category_id",
     "SELECT c.first_name, r.rental_date FROM customer c JOIN rental r ON c.customer_id = r.customer_id",

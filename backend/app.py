@@ -1,8 +1,11 @@
+from flask_cors import CORS
 from flask import Flask, request, jsonify
 import joblib
 import pandas as pd
 
+
 app = Flask(__name__)
+CORS(app)
 model = joblib.load('model/indexing_model.pkl')
 
 @app.route('/predict', methods=['POST'])
